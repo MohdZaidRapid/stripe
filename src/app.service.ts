@@ -18,7 +18,7 @@ export class AppService {
       apiVersion: '2022-11-15',
       typescript: true,
     });
-    this.addCardToCustomer();
+    this.chargeCustomerThroughCustomerId();
   }
 
   async createCustomer({ name, email }: UserDto) {
@@ -76,6 +76,18 @@ export class AppService {
     console.log(AddingcardAndCutomerDetails);
   }
 
+  async chargeCustomerThroughCustomerId() {
+    let param = {
+      amount: 2000,
+      currency: 'usd',
+      description: 'First payment',
+      customer: 'cus_Mu01jREMw8zaGx',
+      payment_method_types: ['card'],
+    };
+
+    const transaction = await this.stripe.paymentIntents.create(param);
+    console.log(transaction);
+  }
   async createPaymentMethod() {
     const paymentMethod = await this.stripe.paymentMethods.create({
       customer: 'cus_MtyqObHn0Svku3',
