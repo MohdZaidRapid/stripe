@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import Stripe from 'stripe';
+import { ChargeUserDto } from './chargeUser.Dto';
 import { UserDto } from './user.dto';
 import { User } from './user.interface';
 
@@ -17,15 +18,21 @@ export class AppService {
       apiVersion: '2022-11-15',
       typescript: true,
     });
-    // console.log(this.stripe);
-    // this.createUser({ name: 'zaid', email: 'zaid@gmail.com' });
+    this.createToken();
   }
 
-  async createUser({ name, email }: UserDto) {
+  async createCustomer({ name, email }: UserDto) {
     const customer = await this.stripe.customers.create({
       name,
       email,
+      description: 'from local',
     });
+
+    if (!customer) {
+      return 'no customer created ';
+    }
+    console.log(customer);
+
     const customerRes = {
       cusId: customer.id,
       name: customer.name,
@@ -35,7 +42,54 @@ export class AppService {
     await customerData.save();
   }
 
-  async chargeUser(){
-    
+  async reteriveCustomer() {
+    try {
+      const customer = await this.stripe.customers.retrieve(
+        'cus_Mu01jREMw8zaGx',
+      );
+      console.log(customer);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async createToken() {
+    let params: any = {};
+    params.card = {
+      number: '4242424242424242',
+      exp_month: 2,
+      exp_year: 2024,
+      cvc: '314',
+    };
+
+    const token = await this.stripe.tokens.create(params);
+
+    console.log(token);
+  }
+
+  async createPaymentMethod() {
+    const paymentMethod = await this.stripe.paymentMethods.create({
+      customer: 'cus_MtyqObHn0Svku3',
+      type: 'card',
+      card: {
+        number: '4242424242424242',
+        exp_month: 12,
+        exp_year: 2023,
+        cvc: '314',
+      },
+    });
+    console.log(paymentMethod);
+    return paymentMethod;
+  }
+
+  async chargeUser({ amount, customerId, paymnetMethodId }: ChargeUserDto) {
+    return this.stripe.paymentIntents.create({
+      amount,
+      customer: customerId,
+      payment_method: paymnetMethodId,
+      currency: 'usd',
+      confirm: true,
+      description: 'hello',
+    });
   }
 }
