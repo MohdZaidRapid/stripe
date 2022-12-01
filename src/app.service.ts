@@ -83,10 +83,12 @@ export class AppService {
       description: 'First payment',
       customer: 'cus_Mu01jREMw8zaGx',
       payment_method_types: ['card'],
+      payment_method: 'card_1MACDbSEemFirGIoX1DXpM9W',
+      confirm: true,
     };
 
     const transaction = await this.stripe.paymentIntents.create(param);
-    console.log(transaction);
+    // console.log(transaction);
   }
   async createPaymentMethod() {
     const paymentMethod = await this.stripe.paymentMethods.create({
@@ -111,6 +113,16 @@ export class AppService {
       currency: 'usd',
       confirm: true,
       description: 'hello',
+      shipping: {
+        name: 'alex',
+        address: {
+          line1: '510 Townsend St',
+          postal_code: '98140',
+          city: 'San Francisco',
+          state: 'CA',
+          country: 'US',
+        },
+      },
     });
   }
 }
