@@ -18,7 +18,7 @@ export class AppService {
       apiVersion: '2022-11-15',
       typescript: true,
     });
-    this.createToken();
+    this.addCardToCustomer();
   }
 
   async createCustomer({ name, email }: UserDto) {
@@ -65,6 +65,15 @@ export class AppService {
     const token = await this.stripe.tokens.create(params);
 
     console.log(token);
+  }
+
+  async addCardToCustomer() {
+    const AddingcardAndCutomerDetails =
+      await this.stripe.customers.createSource('cus_Mu01jREMw8zaGx', {
+        source: 'tok_1MACDbSEemFirGIoCPmCS32v',
+      });
+
+    console.log(AddingcardAndCutomerDetails);
   }
 
   async createPaymentMethod() {
