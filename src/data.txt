@@ -1,0 +1,48 @@
+// this.createCustomer({
+    //   name: 'MohdZaidRapid',
+    //   email: 'mohdzaid@gmail.com',
+    //   address: {
+    //     line1: '510 Townsend St',
+    //     postal_code: '98140',
+    //     city: 'San Francisco',
+    //     state: 'CA',
+    //     country: 'US',
+    //   },
+    // });
+
+
+    // async createPaymentMethod() {
+  //   const paymentMethod = await this.stripe.paymentMethods.create({
+  //     customer: 'cus_MtyqObHn0Svku3',
+  //     type: 'card',
+  //     card: {
+  //       number: '4242424242424242',
+  //       exp_month: 12,
+  //       exp_year: 2023,
+  //       cvc: '314',
+  //     },
+  //   });
+  //   console.log(paymentMethod);
+  //   return paymentMethod;
+  // }
+
+  // async chargeUser({ amount, customerId, paymnetMethodId }: ChargeUserDto) {
+  //   return this.stripe.paymentIntents.create({
+  //     amount,
+  //     customer: customerId,
+  //     payment_method: paymnetMethodId,
+  //     currency: 'usd',
+  //     confirm: true,
+  //     description: 'hello',
+  //     shipping: {
+  //       name: 'alex',
+  //       address: {
+  //         line1: '510 Townsend St',
+  //         postal_code: '98140',
+  //         city: 'San Francisco',
+  //         state: 'CA',
+  //         country: 'US',
+  //       },
+  //     },
+  //   });
+  // }

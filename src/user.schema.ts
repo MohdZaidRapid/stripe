@@ -10,6 +10,13 @@ export const UserSchema = new mongoose.Schema<User>(
       type: String,
     },
     cusId: String,
+    address: {
+      line1: { type: String },
+      postal_code: String,
+      city: String,
+      state: String,
+      country: String,
+    },
   },
   { timestamps: true },
 );
