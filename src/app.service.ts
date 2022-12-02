@@ -38,6 +38,7 @@ export class AppService {
     //   description: 'Best Plan in the whole section',
     //   name: 'Plus Ultra',
     // });
+    this.createSubscriptionPrice();
   }
 
   async createCustomer(userDto: UserDto) {
@@ -146,6 +147,23 @@ export class AppService {
       const subscriptionProduct = await this.stripe.products.create(params);
 
       console.log(subscriptionProduct);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createSubscriptionPrice() {
+    try {
+      const params: Stripe.PriceCreateParams = {
+        currency: 'usd',
+        lookup_key: 'increment',
+        active: true,
+        product: 'prod_MuLudCiQVKVMBS',
+        unit_amount: 100,
+      };
+
+      const subscriptioPrice = await this.stripe.prices.create(params);
+      console.log(subscriptioPrice);
     } catch (error) {
       console.log(error);
     }
